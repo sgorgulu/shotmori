@@ -1,0 +1,24 @@
+cask "shotmori" do
+  version "__VERSION__"
+  sha256 "__SHA256__"
+
+  url "https://github.com/sgorgulu/shotmori/releases/download/v#{version}/Shotmori-#{version}.dmg"
+  name "Shotmori"
+  desc "Screenshot shelf for the menu bar"
+  homepage "https://shotmori.com/"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: ">= :sonoma"
+
+  app "Shotmori.app"
+
+  zap trash: [
+    "~/Library/Containers/dev.shotmori.app",
+    "~/Library/Containers/dev.shotmori.app.widgets",
+    "~/Library/Group Containers/ANW6K6228Y.dev.shotmori",
+  ]
+end

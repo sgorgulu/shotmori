@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Shotmori gizlilik beyanı (1.0): geliştirici veri toplamaz, izleme yok. Bulut 1.0'da açık: kullanıcı bağlarsa dosyalar
+     doğrudan kendi Google Drive / S3 hesabına gider (Shotmori sunucusu ya da aracı yok); bu, geliştiricinin veri toplaması sayılmaz.
+     Gerekçe isteyen API'ler:
+     - UserDefaults (CA92.1): yalnız uygulamanın kendi tercihleri.
+     - Dosya zaman damgası (stat / creationDate / modificationDate):
+       3B52.1 kullanıcının seçtiği klasördeki ekran görüntüleri; C617.1 Shotmori'nin kendi konteynerindeki dosyalar;
+       DDA9.1 kart üzerinde kullanıcıya gösterilen çekim saati. -->
+<plist version="1.0">
+<dict>
+	<key>NSPrivacyTracking</key>
+	<false/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array><string>CA92.1</string></array>
+		</dict>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array><string>3B52.1</string><string>C617.1</string><string>DDA9.1</string></array>
+		</dict>
+	</array>
+</dict>
+</plist>

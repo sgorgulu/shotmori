@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Sandbox'a ilk geçiş: sandbox dışı sürümün verisi bir kez konteynere taşınır (raf, Türevler, Pano, tercihler, günlük).
+     Raf yollarının yeni köke bağlanması AppController.start → ShelfStore.rebasePaths.
+     UYARI: QA derlemeleri bu dosyayı içermemeli (scripts/qa-sandbox.sh siler), yoksa gerçek veri QA konteynerine taşınır. -->
+<plist version="1.0">
+<dict>
+	<key>Move</key>
+	<array>
+		<string>${Library}/Application Support/Shotmori</string>
+		<string>${Library}/Preferences/dev.shotmori.app.plist</string>
+		<string>${Library}/Logs/Shotmori.log</string>
+	</array>
+</dict>
+</plist>

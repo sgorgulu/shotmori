@@ -1,0 +1,12 @@
+/* Shotmori — English · widget uzantısı. Üreteç: scripts/gen_strings.py; elle düzenlerseniz üreteci de güncelleyin. */
+
+"widgetRecentTitle" = "Recent Images";
+"widgetRecentDesc" = "Your latest shelf images and the new count.";
+"widgetEmpty" = "Your images collect here";
+"widgetNew.one" = "1 new";
+"widgetNew.other" = "%d new";
+"widgetTotal.one" = "1 image";
+"widgetTotal.other" = "%d images";
+"cmdShowTitle" = "Show Shelf";
+"cmdClipboardTitle" = "Add Clipboard";
+"cmdCopyLatestTitle" = "Copy Latest";

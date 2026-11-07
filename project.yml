@@ -1,0 +1,147 @@
+name: Shotmori
+options:
+  bundleIdPrefix: dev.shotmori
+  deploymentTarget:
+    macOS: "14.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    DEVELOPMENT_TEAM: ANW6K6228Y
+    CODE_SIGN_STYLE: Manual
+    ENABLE_HARDENED_RUNTIME: YES
+    SWIFT_STRICT_CONCURRENCY: minimal
+    MARKETING_VERSION: "1.0.0" # ilk App Store sürümü; build numarası her yüklemede artar (release-mas.sh BUILD_NUMBER)
+    CURRENT_PROJECT_VERSION: "1"
+  configs:
+    # Yerel geliştirme: Apple Development sertifikası (takım ANW6K6228Y) → TCC izinleri derlemeler arasında korunur.
+    # Release: Developer ID Application sertifikası gelince burada değişecek (notarization için).
+    Debug:
+      CODE_SIGN_IDENTITY: "Apple Development"
+      PROVISIONING_PROFILE_SPECIFIER: ""
+      SWIFT_ACTIVE_COMPILATION_CONDITIONS: "DEBUG SHOTMORI_CLOUD"
+    Release:
+      # Developer ID sertifikası kurulana kadar yerelde çalışır; scripts/release.sh Developer ID ile ezer.
+      CODE_SIGN_IDENTITY: "Apple Development"
+      PROVISIONING_PROFILE_SPECIFIER: ""
+      # Bulut 1.0'da açık (27.10.2026): kullanıcının kendi Drive/S3 hesabı; Features.cloud.
+      SWIFT_ACTIVE_COMPILATION_CONDITIONS: "SHOTMORI_CLOUD"
+targets:
+  Shotmori:
+    type: application
+    platform: macOS
+    sources:
+      - path: Shotmori
+        excludes:
+          - "**/*.example"
+      - path: Shared
+    dependencies:
+      - target: ShotmoriWidgets
+        embed: true
+    info:
+      path: Shotmori/Info.plist
+      properties:
+        CFBundleDisplayName: Shotmori
+        CFBundleName: Shotmori
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+        NSHumanReadableCopyright: "© 2026 Selçuk Görgülü"
+        NSPrincipalClass: NSApplication
+        LSMinimumSystemVersion: "14.0"
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [tr, en]
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        # Yalnız HTTPS/sistem şifrelemesi (bulut: kullanıcının kendi Drive/S3 hesabına HTTPS; özel şifreleme yok): ihracat beyanı muaf.
+        ITSAppUsesNonExemptEncryption: false
+        # Otomasyon yüzeyleri (27.10.2026): yalnız komut alan URL şeması (dosya yolu yok, ilk istekte izin kapısı),
+        # Finder Servisi (menü adı ServicesMenu.strings ile çevrilir) ve "Birlikte Aç" (Viewer/Alternate; Owner/Default yasak).
+        CFBundleURLTypes:
+          - CFBundleURLName: dev.shotmori.app.url
+            CFBundleURLSchemes: [shotmori]
+            CFBundleTypeRole: Viewer
+        NSServices:
+          - NSMessage: addToShelfService
+            NSPortName: Shotmori
+            NSMenuItem:
+              default: "Add to Shotmori Shelf"
+            NSSendFileTypes: [public.image]
+            NSSendTypes: [public.png, public.tiff]
+            NSRequiredContext: {}
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.png, public.jpeg, public.heic, public.heif, public.tiff, com.compuserve.gif, org.webmproject.webp]
+    # Entitlement'lar elle tutulan dosyalarda (XcodeGen `entitlements:` anahtarı her yapılandırmaya aynı dosyayı yazar):
+    # Release (App Store + Developer ID) → Shotmori.entitlements: App Sandbox, yalnız kullanıcının seçtiği klasör + kalıcı bookmark.
+    #   Ağ: network.client (Google Drive / S3 istekleri) + network.server (OAuth geri dönüşü için 127.0.0.1 dinleyicisi).
+    # Debug → Shotmori-Debug.entitlements: sandbox dışı (QA betiği ve bulut geliştirmesi için).
+    # İkisinde de App Group (ANW6K6228Y.dev.shotmori): widget anlık görüntüsü grup konteynerine yazılır.
+    settings:
+      base:
+        CODE_SIGN_ENTITLEMENTS: Shotmori/Shotmori.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: dev.shotmori.app
+        PRODUCT_NAME: Shotmori
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_OBJC_BRIDGING_HEADER: ""
+      configs:
+        Debug:
+          CODE_SIGN_ENTITLEMENTS: Shotmori/Shotmori-Debug.entitlements
+  # Bildirim Merkezi/masaüstü widget'ı (14+) + Control Widget'lar (26+). Shared/ iki hedefe de derlenir;
+  # SHOTMORI_WIDGET koşulu uzantı tarafındaki komut intent gövdelerini boşaltır (intent uygulama sürecinde çalışır).
+  # App Group ANW6K6228Y.dev.shotmori takım önekli: profil gerektirmez.
+  ShotmoriWidgets:
+    type: app-extension
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: ShotmoriWidgets
+      - path: Shared
+    info:
+      path: ShotmoriWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Shotmori
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        LSMinimumSystemVersion: "14.0"
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.shotmori.app.widgets
+        PRODUCT_NAME: ShotmoriWidgets
+        CODE_SIGN_ENTITLEMENTS: ShotmoriWidgets/ShotmoriWidgets.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SKIP_INSTALL: YES
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: "DEBUG SHOTMORI_WIDGET"
+        Release:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: "SHOTMORI_WIDGET"
+  ShotmoriTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: ShotmoriTests
+    dependencies:
+      - target: Shotmori
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.shotmori.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Shotmori:
+    build:
+      targets:
+        Shotmori: all
+        ShotmoriTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [ShotmoriTests]

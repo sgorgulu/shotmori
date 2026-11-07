@@ -1,0 +1,12 @@
+/* Shotmori — English · App Shortcuts ifadeleri. Üreteç: scripts/gen_strings.py; elle düzenlerseniz üreteci de güncelleyin. */
+
+"Add images to ${applicationName}" = "Add images to ${applicationName}";
+"Add to ${applicationName} shelf" = "Add to ${applicationName} shelf";
+"Get images from ${applicationName}" = "Get images from ${applicationName}";
+"Get new images from ${applicationName}" = "Get new images from ${applicationName}";
+"Add clipboard to ${applicationName}" = "Add clipboard to ${applicationName}";
+"Copy latest image from ${applicationName}" = "Copy latest image from ${applicationName}";
+"Show ${applicationName} shelf" = "Show ${applicationName} shelf";
+"Hide ${applicationName} shelf" = "Hide ${applicationName} shelf";
+"Clear ${applicationName} shelf" = "Clear ${applicationName} shelf";
+"Upload with ${applicationName}" = "Upload with ${applicationName}";

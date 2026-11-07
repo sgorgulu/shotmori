@@ -1,0 +1,12 @@
+/* Shotmori — Türkçe (varsayılan dil) · widget uzantısı. Üreteç: scripts/gen_strings.py; elle düzenlerseniz üreteci de güncelleyin. */
+
+"widgetRecentTitle" = "Son görüntüler";
+"widgetRecentDesc" = "Rafınızdaki son görüntüler ve yeni sayısı.";
+"widgetEmpty" = "Görüntüleriniz burada birikir";
+"widgetNew.one" = "1 yeni";
+"widgetNew.other" = "%d yeni";
+"widgetTotal.one" = "1 görüntü";
+"widgetTotal.other" = "%d görüntü";
+"cmdShowTitle" = "Rafı göster";
+"cmdClipboardTitle" = "Panodan ekle";
+"cmdCopyLatestTitle" = "Son görüntüyü kopyala";

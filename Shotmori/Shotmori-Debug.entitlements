@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Debug: sandbox dışı (QA betiği SHOTMORI_DATA_DIR ile konteyner dışına yazar; bulut geliştirmesi ağ ister). Release entitlement'ları Shotmori.entitlements içinde.
+     App Group yalnız widget anlık görüntüsü için (ShotmoriWidgets ile aynı grup); sandbox'ı açmaz. -->
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>ANW6K6228Y.dev.shotmori</string>
+	</array>
+</dict>
+</plist>
